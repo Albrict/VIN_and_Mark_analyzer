@@ -115,7 +115,6 @@ namespace VIN {
     const char *checksum_error = "Error! Checksum is invalid!\n";  
 
     [[nodiscard]] bool checkForIllegalCharacters(const string &vin);
-
     namespace checkSum {
         [[nodiscard]] int getCharId(const char sym);
         [[nodiscard]] inline bool verifyCheckSum(const string &vin); 
@@ -147,17 +146,27 @@ namespace VIN {
         if (vin_region_code == region_code) {
             const char min_country_code = country_data[i].code[1];
             const char max_country_code = country_data[i].code[4];
-
             if (vin_country_code >= min_country_code && vin_country_code <= max_country_code)
                 return country_data[i].name;
         }
     }
-    return "Not used";
+    [[unlikely]] return "Not used";
 }
 
 [[nodiscard]] int VIN::getTransportYear(const string &vin)
 {
-    ;
+    const char code = vin[9];
+    int year = 0;
+    if (std::isalpha(code)) {
+        if (code >= 'A' && code <= 'Y') {
+            const int code_alphabet_position = code - 'A' - 1;
+            year += code_alphabet_position + 2010;
+        }
+    } else if (std::isdigit(code)) {
+        const int digit_code = code - '0';
+        year += digit_code + 2000; 
+    }
+    return year;
 }
 
 [[nodiscard]] bool VIN::checkForIllegalCharacters(const string &vin)
@@ -208,17 +217,17 @@ namespace VIN {
         int weight = getWeight(i + 1);
         if (std::isalpha(vin[i])) {
             num_representation = getCharId(vin[i]);
-            printf("Char %c number representation: %d\t Position: %zu\n", vin[i], num_representation, i);
+//            printf("Char %c number representation: %d\t Position: %zu\n", vin[i], num_representation, i);
         } else {
             num_representation = vin[i] - '0';
-            printf("Number representation: %d\t Position: %zu\n", num_representation, i);
+//            printf("Number representation: %d\t Position: %zu\n", num_representation, i);
         }
-        std::printf("Weight of %c is: %d\n", vin[i], weight);
+//        std::printf("Weight of %c is: %d\n", vin[i], weight);
         vin_sum += num_representation * weight; 
     }
     const int nearest_smallest_number = (vin_sum / 11) * 11;
     const int check_sum = vin_sum - nearest_smallest_number; 
-    printf("Nearest smallest number: %d\n", nearest_smallest_number);
+//    printf("Nearest smallest number: %d\n", nearest_smallest_number);
     std::cout << "Calculated checksum: " << check_sum << '\n';
     std::cout << "VIN checksum: " << vin[8] << '\n';
     if (check_sum == vin[8] - '0') {
