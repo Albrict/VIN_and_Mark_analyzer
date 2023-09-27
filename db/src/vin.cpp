@@ -14,31 +14,97 @@ namespace VIN {
         Country(const string &code, const string &name)
             : code(code), name(name) {}
     };
-    const std::array<VIN::Country, 2> country_data { {"ff", "f"}};
-    enum GEOGRAPHICAL_ZONES { AFRICA, ASIA, EUROPE, NORTH_AMERIKA, OCEANIA, SOUTH_AMERIKA, NONE }; enum AFRICA_COUNTRIES { UAR, COTE_D_IVOIRE, ANGOLA, KENIA, TANZANIA, BENIN, MADAGASCAR, TUNISIA, EGYPT, MOROCCO, ZAMBI, ETHIOPI, MOZAMBIQU, GHANA, NIGERIA };
-    enum ASIA_COUNTRIES { JAPAN, SRI_LANKA, ISRAEL, SOUTH_KOREA, KAZAKHSTAN, CHINA, INDIA, INDONESIA, 
-                          THAILAND, PAKISTAN, TURKEY, PHILIPPINES, SINGAPORE, MALAYSIA, UAE, TAIWAN, VIETNAM, SAUDI_ARABIA };
-    enum EUROPE_COUNTRIES {UNITED_KINGDOM, GERMANY, POLAND, LATVIA, SWITZERLAND, CZECHIA, HUNGARY, PORTUGAL, 
-                           DENMARK, IRELAND, ROMANIA, SLOVAKIA, AUSTRIA, FRANCE, SPAIN, SERBIA, CROATIA, ESTONIA, BULGARIA, GREECE, NETHERLANDS, USSR_CIS, 
-                           LUXEMBOURG, RUSSIA, BELGIUM, FINLAND, MALTA, SWEDEN, NORWAY, BELARUS, UKRAINE, ITALY, SLOVENIA, LITHUANIA};
-    enum NORTH_AMERIKA_COUNTRIES { USA, CANADA, MEXICO, COSTA_RICA, CAYMAN_ISLANDS};
-    enum OCEANIA_COUNTRIES {AUSTRALIA, NEW_ZEALAND};
-    enum SOUTH_AMERIKA_COUNTRIES {ARGENTINA, CHILE, ECUADOR, PERU, VENEZUELA, BRAZIL, COLOMBIA, PARAGUAY, URUGUAY, TRINIDAD_AND_TOBAGO};
-
-    const std::array<const string, 7> geographical_zones_names = {"Africa", "Asia", "Europe", "North Amerika", "Oceania", "South Amerika", "None"};
-    const std::array<const string, 15> africa_country_names = {"UAR", "Cote d'Ivoire", "Angola", "Kenia", "Tanzania", "Benin", "Madagascar", "Tunisia", "Egypt",
-                                                         "Morocco", "Zambia", "Ethiopia", "Mozambique", "Ghana", "Nigeria"};
-    const std::array<const string, 18> asia_country_names = {"Japan", "Sri Lanka", "Israel", "South Korea", "Kazakhstan", "China", "India", "Indonesia"
-                                                             "Thailand", "Pakistan", "Turkey", "Philippines", "Singapore", "Malaysia", "UAE", "Taiwan", "Vietnam",
-                                                             "Saudi Arabia"};
-    const std::array<const string, 36> europe_country_names = { "United Kingdom", "Germany", "Poland", "Latvia", "Switzerland", "Czechia", "Hungary", "Portugal", 
-                            "Denmark", "Ireland", "Romania", "Slovakia", "Austria", "France", "Spain", "Serbia", "Croatia", "Estonia", "Bulgaria", "Greece", 
-                            "Netherlands", "USSS_CIS", "Luxembourg", "Russia", "Belgium", "Finland", "Malta", "Sweden", "Norway" "Belarus" "Ukraine" "Italy"
-                            "Slovenia", "Lithuania"};
-    const std::array<const string, 5> north_amerika_countries_names = {"USA", "Canada", "Mexico", "Costa Rica", "Cayman Islands"};
-    const std::array<const string, 2> oceania_countries_names = {"Australia",  "New Zealand"};
-    const std::array<const string, 10> south_amerika_countries_names = {"Argentina", "Chile", "Ecuador", "Peru", "Venezuela", "Brazil", "Colombia", "Paraguay",
-                                                                        "Uruguay", "Trinidad and Tobago"};
+    const std::array<Country, 89> country_data = {
+        {"AA-AH", "UAR"},
+        {"AJ-AN", "Cot D'Ivoire"},
+        {"BA-BE", "Angola"},
+        {"BF-BK", "Kenia"},
+        {"BL-BR", "Tanzania"},
+        {"CA-CE", "Benin"},
+        {"CF-CK", "Madagascar"},
+        {"CL-CR", "Tunisia"},
+        {"DA-DE", "Egypt"},
+        {"DF-DK", "Morocco"},
+        {"DL-DR", "Zambia"},
+        {"EA-EE", "Ethiopia"},
+        {"EF-EK", "Mozambique"},
+        {"FA-FE", "Ghana"},
+        {"FF-FK", "Nigeria"},
+        {"JA-JT", "Japan"},
+        {"KA-KE", "Sri-Lanka"},
+        {"KF-KK", "Israel"},
+        {"KL-KR", "South Korea"},
+        {"KS-K0", "Kazakhstan"},
+        {"LA-L0", "China"},
+        {"MA-ME", "India"},
+        {"MF-MK", "Indonesia"},
+        {"ML-MR", "Thailand"},
+        {"NF-NK", "Pakistan"},
+        {"NL-NR", "Turkey"},
+        {"PA-PE", "Philippines"},
+        {"PF-PK", "Singapore"},
+        {"PL-PR", "Malaysia"},
+        {"RA-RE", "UAE"},
+        {"RF-RK", "Taiwan"},
+        {"RL-RR", "Vietnam"},
+        {"RS-R0", "Saudi Arabia"},
+        {"SA-SM", "United Kingdom"},
+        {"SN-ST", "Germany"},
+        {"SU-SZ", "Poland"},
+        {"S1-S4", "Latvia"},
+        {"TA-TH", "Switzerland"},
+        {"TJ-TP", "Czechia"},
+        {"TP-TV", "Hungary"},
+        {"TW-T1", "Portugal"},
+        {"UH-UM", "Denmark"},
+        {"UN-UT", "Ireland"},
+        {"UU-UZ", "Romania"},
+        {"U5-U7", "Slovakia"},
+        {"VA-VE", "Austria"},
+        {"VF-VR", "France"},
+        {"VS-VW", "Spain"},
+        {"VX-V2", "Serbia"},
+        {"V3-V5", "Croatia"},
+        {"V6-V0", "Estonia"},
+        {"WA-W0", "Germany"},
+        {"XA-XE", "Bulgaria"},
+        {"XF-XK", "Greece"},
+        {"XL-XR", "Netherlands"},
+        {"XS-XW", "USSR/CIS"},
+        {"XX-X2", "Luxembourg"},
+        {"X3-X0", "Russia"},
+        {"YA-YE", "Belgium"},
+        {"YF-YK", "Finland"},
+        {"YL-YR", "Malta"},
+        {"YS-YW", "Sweden"},
+        {"YX-Y2", "Norway"},
+        {"Y3-Y5", "Belarus"},
+        {"Y6-Y0", "Ukraine"},
+        {"ZA-ZR", "Italy"},
+        {"ZX-Z2", "Slovenia"},
+        {"Z3-Z5", "Lithuania"},
+        {"Z6-Z0", "Russia"},
+        {"1A-10", "USA"},
+        {"2A-20", "Canada"},
+        {"3A-3W", "Mexico"},
+        {"3X-37", "Costa-Rica"},
+        {"38-30", "Cayman Islands"},
+        {"4A-40", "USA"},
+        {"5A-50", "USA"},
+        {"6A-6W", "Australia"},
+        {"7A-7E", "New Zealand"},
+        {"8A-8E", "Argentina"},
+        {"8F-8K", "Chile"},
+        {"8L-8R", "Ecuador"},
+        {"8S-8W", "Peru"},
+        {"8X-82", "Venezuela"},
+        {"9A-9E", "Brazil"},
+        {"9F-9K", "Colombia"},
+        {"9L-9R", "Paraguay"},
+        {"9S-9W", "Uruguay"},
+        {"9X-92", "Trinidad and Tobago"},
+        {"93-99", "Brazil"},
+    };
 
     const size_t vin_size = 17;
     const char *illegal_chars = "IOQ";
@@ -49,15 +115,6 @@ namespace VIN {
     const char *checksum_error = "Error! Checksum is invalid!\n";  
 
     [[nodiscard]] bool checkForIllegalCharacters(const string &vin);
-
-    [[nodiscard]] inline GEOGRAPHICAL_ZONES defineGeographicalZone(const char zone_id);
-    [[nodiscard]] inline string defineAsianCountry(const string &region_code);
-    [[nodiscard]] inline string defineAfricaCountry(const string &region_code);
-    [[nodiscard]] inline string defineEuropeCountry(const string &region_code);
-    [[nodiscard]] inline string defineNorthAmerikaCountry(const string &region_code);
-    [[nodiscard]] inline string defineSouthAmerikaCountry(const string &region_code);
-    [[nodiscard]] inline string defineOceaniaCountry(const string &region_code);
-
     [[nodiscard]] string defineCountry(const string &region_code);
 
     namespace checkSum {
@@ -84,8 +141,7 @@ namespace VIN {
 
 [[nodiscard]] string VIN::getVINCountry(const string &vin)
 {
-    const GEOGRAPHICAL_ZONES zone = defineGeographicalZone(vin[0]);
-    return geographical_zones_names[zone]; 
+    ;
 }
 
 [[nodiscard]] int VIN::getTransportYear(const string &vin)
@@ -179,124 +235,7 @@ namespace VIN {
     return weight;
 }
 
-[[nodiscard]] inline VIN::GEOGRAPHICAL_ZONES VIN::defineGeographicalZone(const char symbol)
-{
-    // First symbol of VIN is geo.zone id
-    switch(symbol) {
-    case 'A'...'H':
-        return VIN::GEOGRAPHICAL_ZONES::AFRICA;
-    case 'J'...'R':
-        return VIN::GEOGRAPHICAL_ZONES::ASIA;
-    case 'S'...'Z':
-        return VIN::GEOGRAPHICAL_ZONES::EUROPE;
-    case '1'...'5':
-        return VIN::GEOGRAPHICAL_ZONES::NORTH_AMERIKA;
-    case '6'...'7':
-        return VIN::GEOGRAPHICAL_ZONES::OCEANIA;
-    case '8'...'9':
-        return VIN::GEOGRAPHICAL_ZONES::SOUTH_AMERIKA;
-    }
-    [[unlikely]] return VIN::GEOGRAPHICAL_ZONES::NONE;
-}
-
 [[nodiscard]] string VIN::defineCountry(const string &region_code)
 {
-    const GEOGRAPHICAL_ZONES zone = defineGeographicalZone(region_code[0]);
-    string country_name;
-    switch(zone) {
-    case AFRICA:
-        return defineAfricaCountry(region_code); 
-    case ASIA:
-        return defineAsianCountry(region_code);
-    case EUROPE:
-        return defineEuropeCountry(region_code);
-    case NORTH_AMERIKA:
-        return defineEuropeCountry(region_code);
-    case OCEANIA:
-        return defineOceaniaCountry(region_code);
-    case SOUTH_AMERIKA:
-        return defineSouthAmerikaCountry(region_code);
-    [[unlikely]] case NONE:
-        return "None";
-    }
-}
-
-[[nodiscard]] inline string VIN::defineAsianCountry(const string &region_code)
-{
-}
-
-[[nodiscard]] inline string VIN::defineAfricaCountry(const string &region_code)
-{
-    
-    const char zone_code = region_code[0];
-    const char country_code = region_code[1];
-
-    switch(zone_code) {
-    case 'A':
-        switch(country_code) {
-        case 'A'...'H':
-            return africa_country_names[UAR];
-        case 'J'...'N':
-            return africa_country_names[COTE_D_IVOIRE];
-        default:
-            return "Not used";  
-        }
-    case 'B':
-        switch(country_code) {
-        case 'A'...'E':
-            return africa_country_names[ANGOLA];
-        case 'F'...'K':
-            return africa_country_names[KENIA];
-        case 'L'...'R':
-            return africa_country_names[TANZANIA];
-        default:
-            return "Not used";
-        }
-    case 'C':
-        switch(country_code) {
-        case 'A'...'E':
-            return africa_country_names[BENIN];
-        case 'F'...'K':
-            return africa_country_names[MADAGASCAR];
-        case 'L'...'R':
-            return africa_country_names[TUNISIA];
-        default:
-            return "Not used";
-        }
-    case 'D':
-        switch(country_code) {
-        case 'A'...'E':
-            return africa_country_names[EGYPT];
-        case 'F'...'K':
-            return africa_country_names[MOROCCO];
-        case 'L'...'R':
-            return africa_country_names[ZAMBI];
-        default:
-            return "Not used";
-        }
-    case 'E':
-//        return VIN::GEOGRAPHICAL_ZONES::OCEANIA;
-    case '8'...'9':
-//        return VIN::GEOGRAPHICAL_ZONES::SOUTH_AMERIKA;
-    }
-}
-
-[[nodiscard]] inline string VIN::defineEuropeCountry(const string &region_code)
-{
-
-}
-
-[[nodiscard]] inline string VIN::defineNorthAmerikaCountry(const string &region_code)
-{
-
-}
-
-[[nodiscard]] inline string VIN::defineSouthAmerikaCountry(const string &region_code)
-{
-
-}
-
-[[nodiscard]] inline string VIN::defineOceaniaCountry(const string &region_code)
-{
-
+    return "f";
 }
