@@ -4,7 +4,7 @@
 
 int main (int argc, char *argv[]) 
 {
-    const std::string vin = "JH4DC4460SS000830";
+    const std::string vin = "SAJEA01U13HM54253";
     std::setlocale(LC_ALL, "");
     if (VIN::checkVIN(vin)) {
         std::cout << "Success\n";

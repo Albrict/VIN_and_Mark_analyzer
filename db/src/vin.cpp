@@ -1,6 +1,5 @@
 #include <array>
 #include <iostream>
-
 #include "vin.hpp"
 
 using string = std::string;
@@ -14,7 +13,8 @@ namespace VIN {
         Country(const string &code, const string &name)
             : code(code), name(name) {}
     };
-    const std::array<Country, 89> country_data = {
+    const size_t countries = 89;
+    const Country country_data[countries] = {
         {"AA-AH", "UAR"},
         {"AJ-AN", "Cot D'Ivoire"},
         {"BA-BE", "Angola"},
@@ -115,7 +115,6 @@ namespace VIN {
     const char *checksum_error = "Error! Checksum is invalid!\n";  
 
     [[nodiscard]] bool checkForIllegalCharacters(const string &vin);
-    [[nodiscard]] string defineCountry(const string &region_code);
 
     namespace checkSum {
         [[nodiscard]] int getCharId(const char sym);
@@ -141,7 +140,19 @@ namespace VIN {
 
 [[nodiscard]] string VIN::getVINCountry(const string &vin)
 {
-    ;
+    const char vin_region_code = vin[0];
+    const char vin_country_code = vin[1];
+    for (size_t i = 0; i < countries; ++i) {
+        const char region_code = country_data[i].code[0];
+        if (vin_region_code == region_code) {
+            const char min_country_code = country_data[i].code[1];
+            const char max_country_code = country_data[i].code[4];
+
+            if (vin_country_code >= min_country_code && vin_country_code <= max_country_code)
+                return country_data[i].name;
+        }
+    }
+    return "Not used";
 }
 
 [[nodiscard]] int VIN::getTransportYear(const string &vin)
@@ -233,9 +244,4 @@ namespace VIN {
             --weight; 
     }
     return weight;
-}
-
-[[nodiscard]] string VIN::defineCountry(const string &region_code)
-{
-    return "f";
 }
