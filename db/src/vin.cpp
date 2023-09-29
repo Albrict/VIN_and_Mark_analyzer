@@ -116,11 +116,10 @@ namespace VIN {
 
     [[nodiscard]] bool checkForIllegalCharacters(const string &vin);
     namespace checkSum {
-        [[nodiscard]] int getCharId(const char sym);
+        [[nodiscard]] inline int getCharId(const char sym);
         [[nodiscard]] inline bool verifyCheckSum(const string &vin); 
         [[nodiscard]] inline int getWeight(const size_t position);
     }
-    
 };
 
 [[nodiscard]] bool VIN::checkVIN(const string &vin)
@@ -146,6 +145,16 @@ namespace VIN {
         if (vin_region_code == region_code) {
             const char min_country_code = country_data[i].code[1];
             const char max_country_code = country_data[i].code[4];
+            // Handle case when max country code is digit 
+            if (std::isdigit(max_country_code)) {
+                if (std::isdigit(vin_country_code)) {
+                    if (max_country_code - '0' == 0)
+                        return country_data[i].name;
+                    if (vin_country_code <= max_country_code)
+                        return country_data[i].name;
+                } else 
+                    return country_data[i].name;
+            }
             if (vin_country_code >= min_country_code && vin_country_code <= max_country_code)
                 return country_data[i].name;
         }
