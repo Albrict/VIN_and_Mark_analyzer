@@ -9,7 +9,8 @@ using size_t = std::size_t;
 namespace RegMark {
     enum class MarkCompareResult {
         MARK_IS_LESSER,
-        MARK_IS_BIGGER
+        MARK_IS_BIGGER,
+        NONE
     };
     const size_t max_unique_codes = 30;
     const std::array<const unsigned int, max_unique_codes> unique_region_codes = {102, 111, 113, 116, 121, 123, 124, 159, 125, 126,
@@ -74,15 +75,21 @@ namespace RegMark {
 
 [[nodiscard]] string RegMark::GetNextMarkAfterRange(const string &prevMark, const string &rangeStart, const string &rangeEnd)
 {
-    const string mark_after = GetNextMarkAfter(prevMark);
-    if (mark_after == rangeStart || mark_after == rangeEnd)
-        return mark_after;
-    
+    const string out_of_stock = "Out of stock";
+    if (prevMark == rangeStart || prevMark == rangeEnd)
+        return prevMark;
+    else if (compareMarks(prevMark, rangeEnd) == MarkCompareResult::MARK_IS_BIGGER)
+        return out_of_stock; 
+    else if (compareMarks(prevMark, rangeStart) == MarkCompareResult::MARK_IS_LESSER)
+        return out_of_stock;
+    else {
+        return GetNextMarkAfter(prevMark);   
+    }
 }
 
 [[nodiscard]] int RegMark::GetCombinationCountInRange(const string &firstMark, const string &secondMark)
 {
-
+     
 }
 
 [[nodiscard]] inline bool RegMark::isSymbolLegal(const char symbol)
@@ -193,7 +200,19 @@ namespace RegMark {
 
 [[nodiscard]] RegMark::MarkCompareResult RegMark::compareMarks(const string left_mark, const string right_mark)
 {
-    if (left_mark[0] == right_mark[0] && left_mark.substr(1, 3) == right_mark.substr(1, 3)) {
-       // 
+    const unsigned int left_reg_code = std::stoi(left_mark.substr(1, 3));
+    const unsigned int right_reg_code = std::stoi(right_mark.substr(1, 3)); 
+
+    if (left_mark[0] < right_mark[0] || left_mark[4] < right_mark[4] || left_mark[5] < right_mark[5]) {
+        return MarkCompareResult::MARK_IS_LESSER;
+    } else if (left_mark[0] > right_mark[0] || left_mark[4] > right_mark[4] || left_mark[5] > right_mark[5]) {
+        return MarkCompareResult::MARK_IS_BIGGER;
+    } else if (left_mark[0] == right_mark[0] && left_mark[4] == right_mark[4] && left_mark[5] == right_mark[5]) {
+        if (left_reg_code < right_reg_code)
+            return MarkCompareResult::MARK_IS_LESSER;
+        else 
+            return MarkCompareResult::MARK_IS_BIGGER;
+    } else [[unlikely]] {
+        return MarkCompareResult::NONE;
     }
 }
