@@ -1,3 +1,7 @@
+//Library implementation for VIN numbers analysis
+//To understand more, check this link:
+//https://en.wikipedia.org/wiki/Vehicle_identification_number
+
 #include <array>
 #include <iostream>
 #include "vin.hpp"
@@ -14,96 +18,98 @@ namespace VIN {
             : code(code), name(name) {}
     };
     const size_t countries = 89;
-    const Country country_data[countries] = {
-        {"AA-AH", "UAR"},
-        {"AJ-AN", "Cot D'Ivoire"},
-        {"BA-BE", "Angola"},
-        {"BF-BK", "Kenia"},
-        {"BL-BR", "Tanzania"},
-        {"CA-CE", "Benin"},
-        {"CF-CK", "Madagascar"},
-        {"CL-CR", "Tunisia"},
-        {"DA-DE", "Egypt"},
-        {"DF-DK", "Morocco"},
-        {"DL-DR", "Zambia"},
-        {"EA-EE", "Ethiopia"},
-        {"EF-EK", "Mozambique"},
-        {"FA-FE", "Ghana"},
-        {"FF-FK", "Nigeria"},
-        {"JA-JT", "Japan"},
-        {"KA-KE", "Sri-Lanka"},
-        {"KF-KK", "Israel"},
-        {"KL-KR", "South Korea"},
-        {"KS-K0", "Kazakhstan"},
-        {"LA-L0", "China"},
-        {"MA-ME", "India"},
-        {"MF-MK", "Indonesia"},
-        {"ML-MR", "Thailand"},
-        {"NF-NK", "Pakistan"},
-        {"NL-NR", "Turkey"},
-        {"PA-PE", "Philippines"},
-        {"PF-PK", "Singapore"},
-        {"PL-PR", "Malaysia"},
-        {"RA-RE", "UAE"},
-        {"RF-RK", "Taiwan"},
-        {"RL-RR", "Vietnam"},
-        {"RS-R0", "Saudi Arabia"},
-        {"SA-SM", "United Kingdom"},
-        {"SN-ST", "Germany"},
-        {"SU-SZ", "Poland"},
-        {"S1-S4", "Latvia"},
-        {"TA-TH", "Switzerland"},
-        {"TJ-TP", "Czechia"},
-        {"TP-TV", "Hungary"},
-        {"TW-T1", "Portugal"},
-        {"UH-UM", "Denmark"},
-        {"UN-UT", "Ireland"},
-        {"UU-UZ", "Romania"},
-        {"U5-U7", "Slovakia"},
-        {"VA-VE", "Austria"},
-        {"VF-VR", "France"},
-        {"VS-VW", "Spain"},
-        {"VX-V2", "Serbia"},
-        {"V3-V5", "Croatia"},
-        {"V6-V0", "Estonia"},
-        {"WA-W0", "Germany"},
-        {"XA-XE", "Bulgaria"},
-        {"XF-XK", "Greece"},
-        {"XL-XR", "Netherlands"},
-        {"XS-XW", "USSR/CIS"},
-        {"XX-X2", "Luxembourg"},
-        {"X3-X0", "Russia"},
-        {"YA-YE", "Belgium"},
-        {"YF-YK", "Finland"},
-        {"YL-YR", "Malta"},
-        {"YS-YW", "Sweden"},
-        {"YX-Y2", "Norway"},
-        {"Y3-Y5", "Belarus"},
-        {"Y6-Y0", "Ukraine"},
-        {"ZA-ZR", "Italy"},
-        {"ZX-Z2", "Slovenia"},
-        {"Z3-Z5", "Lithuania"},
-        {"Z6-Z0", "Russia"},
-        {"1A-10", "USA"},
-        {"2A-20", "Canada"},
-        {"3A-3W", "Mexico"},
-        {"3X-37", "Costa-Rica"},
-        {"38-30", "Cayman Islands"},
-        {"4A-40", "USA"},
-        {"5A-50", "USA"},
-        {"6A-6W", "Australia"},
-        {"7A-7E", "New Zealand"},
-        {"8A-8E", "Argentina"},
-        {"8F-8K", "Chile"},
-        {"8L-8R", "Ecuador"},
-        {"8S-8W", "Peru"},
-        {"8X-82", "Venezuela"},
-        {"9A-9E", "Brazil"},
-        {"9F-9K", "Colombia"},
-        {"9L-9R", "Paraguay"},
-        {"9S-9W", "Uruguay"},
-        {"9X-92", "Trinidad and Tobago"},
-        {"93-99", "Brazil"},
+    const std::array<const Country, countries> country_data = {
+        {
+            Country("AA-AH", "UAR"), 
+            Country("AJ-AN", "Cot D'Ivoire"),
+            Country("BA-BE", "Angola"),
+            Country("BF-BK", "Kenia"),
+            Country("BL-BR", "Tanzania"),
+            Country("CA-CE", "Benin"),
+            Country("CF-CK", "Madagascar"),
+            Country("CL-CR", "Tunisia"),
+            Country("DA-DE", "Egypt"),
+            Country("DF-DK", "Morocco"),
+            Country("DL-DR", "Zambia"),
+            Country("EA-EE", "Ethiopia"),
+            Country("EF-EK", "Mozambique"),
+            Country("FA-FE", "Ghana"),
+            Country("FF-FK", "Nigeria"),
+            Country("JA-JT", "Japan"),
+            Country("KA-KE", "Sri-Lanka"),
+            Country("KF-KK", "Israel"),
+            Country("KL-KR", "South Korea"),
+            Country("KS-K0", "Kazakhstan"),
+            Country("LA-L0", "China"),
+            Country("MA-ME", "India"),
+            Country("MF-MK", "Indonesia"),
+            Country("ML-MR", "Thailand"),
+            Country("NF-NK", "Pakistan"),
+            Country("NL-NR", "Turkey"),
+            Country("PA-PE", "Philippines"),
+            Country("PF-PK", "Singapore"),
+            Country("PL-PR", "Malaysia"),
+            Country("RA-RE", "UAE"),
+            Country("RF-RK", "Taiwan"),
+            Country("RL-RR", "Vietnam"),
+            Country("RS-R0", "Saudi Arabia"),
+            Country("SA-SM", "United Kingdom"),
+            Country("SN-ST", "Germany"),
+            Country("SU-SZ", "Poland"),
+            Country("S1-S4", "Latvia"),
+            Country("TA-TH", "Switzerland"),
+            Country("TJ-TP", "Czechia"),
+            Country("TP-TV", "Hungary"),
+            Country("TW-T1", "Portugal"),
+            Country("UH-UM", "Denmark"),
+            Country("UN-UT", "Ireland"),
+            Country("UU-UZ", "Romania"),
+            Country("U5-U7", "Slovakia"),
+            Country("VA-VE", "Austria"),
+            Country("VF-VR", "France"),
+            Country("VS-VW", "Spain"),
+            Country("VX-V2", "Serbia"),
+            Country("V3-V5", "Croatia"),
+            Country("V6-V0", "Estonia"),
+            Country("WA-W0", "Germany"),
+            Country("XA-XE", "Bulgaria"),
+            Country("XF-XK", "Greece"),
+            Country("XL-XR", "Netherlands"),
+            Country("XS-XW", "USSR/CIS"),
+            Country("XX-X2", "Luxembourg"),
+            Country("X3-X0", "Russia"),
+            Country("YA-YE", "Belgium"),
+            Country("YF-YK", "Finland"),
+            Country("YL-YR", "Malta"),
+            Country("YS-YW", "Sweden"),
+            Country("YX-Y2", "Norway"),
+            Country("Y3-Y5", "Belarus"),
+            Country("Y6-Y0", "Ukraine"),
+            Country("ZA-ZR", "Italy"),
+            Country("ZX-Z2", "Slovenia"),
+            Country("Z3-Z5", "Lithuania"),
+            Country("Z6-Z0", "Russia"),
+            Country("1A-10", "USA"),
+            Country("2A-20", "Canada"),
+            Country("3A-3W", "Mexico"),
+            Country("3X-37", "Costa-Rica"),
+            Country("38-30", "Cayman Islands"),
+            Country("4A-40", "USA"),
+            Country("5A-50", "USA"),
+            Country("6A-6W", "Australia"),
+            Country("7A-7E", "New Zealand"),
+            Country("8A-8E", "Argentina"),
+            Country("8F-8K", "Chile"),
+            Country("8L-8R", "Ecuador"),
+            Country("8S-8W", "Peru"),
+            Country("8X-82", "Venezuela"),
+            Country("9A-9E", "Brazil"),
+            Country("9F-9K", "Colombia"),
+            Country("9L-9R", "Paraguay"),
+            Country("9S-9W", "Uruguay"),
+            Country("9X-92", "Trinidad and Tobago"),
+            Country("93-99", "Brazil")
+        }
     };
 
     const size_t vin_size = 17;
@@ -135,13 +141,15 @@ namespace VIN {
     return true;
 }
 
-
+// This algorithm first checks the region code, 
+// if there is a match, the algorithm starts looking for the country code in that region
 [[nodiscard]] string VIN::getVINCountry(const string &vin)
 {
     const char vin_region_code = vin[0];
     const char vin_country_code = vin[1];
     for (size_t i = 0; i < countries; ++i) {
         const char region_code = country_data[i].code[0];
+        // Is there match?
         if (vin_region_code == region_code) {
             const char min_country_code = country_data[i].code[1];
             const char max_country_code = country_data[i].code[4];
@@ -161,7 +169,9 @@ namespace VIN {
     }
     [[unlikely]] return "Not used";
 }
-
+//Returns the year of manufacture of the vehicle. If the code is a letter, 
+//the year is calculated based on the position of the letter in the alphabet, 
+//otherwise if the code is a number, just add 2001 + the number.
 [[nodiscard]] int VIN::getTransportYear(const string &vin)
 {
     const char code = vin[9];
@@ -203,6 +213,7 @@ namespace VIN {
     return true;
 }
 
+// Returns char ID based on checksum table for symbols
 [[nodiscard]] inline int VIN::checkSum::getCharId(const char sym)
 {
     int char_id = 0;
@@ -214,7 +225,8 @@ namespace VIN {
         char_id = sym - 'R' + 1;
     return char_id;
 }
-
+// Algorithm of finding the checksum for VIN number. For reference, see this link
+// https://en.wikipedia.org/wiki/Vehicle_identification_number#Check-digit_calculation
 [[nodiscard]] bool VIN::checkSum::verifyCheckSum(const string &vin)
 {
     int vin_sum = 0;
@@ -224,19 +236,14 @@ namespace VIN {
             continue;
         int num_representation;
         int weight = getWeight(i + 1);
-        if (std::isalpha(vin[i])) {
+        if (std::isalpha(vin[i]))
             num_representation = getCharId(vin[i]);
-//            printf("Char %c number representation: %d\t Position: %zu\n", vin[i], num_representation, i);
-        } else {
+        else
             num_representation = vin[i] - '0';
-//            printf("Number representation: %d\t Position: %zu\n", num_representation, i);
-        }
-//        std::printf("Weight of %c is: %d\n", vin[i], weight);
         vin_sum += num_representation * weight; 
     }
     const int nearest_smallest_number = (vin_sum / 11) * 11;
     const int check_sum = vin_sum - nearest_smallest_number; 
-//    printf("Nearest smallest number: %d\n", nearest_smallest_number);
     std::cout << "Calculated checksum: " << check_sum << '\n';
     std::cout << "VIN checksum: " << vin[8] << '\n';
     if (check_sum == vin[8] - '0') {
@@ -247,6 +254,7 @@ namespace VIN {
     }
 }
 
+// Returns weight of the symbol based on his position
 [[nodiscard]] inline int VIN::checkSum::getWeight(const size_t position)
 {
     int weight = 0;

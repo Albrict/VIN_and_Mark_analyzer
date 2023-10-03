@@ -1,3 +1,6 @@
+//Library implementation for russian vehicle marks analysis
+//To understand more, check this link:
+// https://ru.wikipedia.org/wiki/%D0%A0%D0%B5%D0%B3%D0%B8%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D1%8B%D0%B5_%D0%B7%D0%BD%D0%B0%D0%BA%D0%B8_%D1%82%D1%80%D0%B0%D0%BD%D1%81%D0%BF%D0%BE%D1%80%D1%82%D0%BD%D1%8B%D1%85_%D1%81%D1%80%D0%B5%D0%B4%D1%81%D1%82%D0%B2_%D0%B2_%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D0%B8
 #include "reg_mark.hpp"
 #include <array>
 #include <iostream>
@@ -28,19 +31,22 @@ namespace RegMark {
     [[nodiscard]] MarkCompareResult compareMarks(const string left_mark, const string right_mark);
     [[nodiscard]] inline bool isSymbolLegal(const char symbol);
     [[nodiscard]] inline unsigned int getRegionCode(const string &mark);
-    
-    [[nodiscard]] inline char getNextSymbolInSeries(const char symbol);
+    [[nodiscard]] inline unsigned int getPossibleCombinationsOfSymbols(const char range_start, const char range_end); 
+    [[nodiscard]] inline unsigned int getPossibleCombinationsOfDigits(const unsigned int range_start, const unsigned int range_end);
+    [[nodiscard]] inline char getNextSymbolInSeries(char symbol);
     [[nodiscard]] string getNextSeries(const string &mark);
     [[nodiscard]] bool checkForIllegalCharacters(const string &mark);
-    [[nodiscard]] bool checkRegionCode(const string &mark);
+    [[nodiscard]] inline bool checkRegionCode(const string &mark);
 };
 
 [[nodiscard]] bool RegMark::CheckMark(const string &mark)
 {
+    // Check size of mark
     if (mark.size() != mark_size) {
         std::cerr << mark_size_error;
         return false;
     }
+    // Check for correctness
     if (!checkForIllegalCharacters(mark))
         return false;
     if (!checkRegionCode(mark))
@@ -48,6 +54,8 @@ namespace RegMark {
     return true;
 }
 
+// First the algorithm checks if the series has the maximum number, 
+// if so, it creates the next one, otherwise it simply increments by one
 [[nodiscard]] string RegMark::GetNextMarkAfter(const string &mark)
 {
     const unsigned int reg_number = std::stoi(mark.substr(1, 3)); 
@@ -72,7 +80,7 @@ namespace RegMark {
         return mark_after;
     }
 }
-
+// The algorithm checks first checks the bounds and then increments the mark in the given range
 [[nodiscard]] string RegMark::GetNextMarkAfterRange(const string &prevMark, const string &rangeStart, const string &rangeEnd)
 {
     const string out_of_stock = "Out of stock";
@@ -87,11 +95,7 @@ namespace RegMark {
     }
 }
 
-[[nodiscard]] int RegMark::GetCombinationCountInRange(const string &firstMark, const string &secondMark)
-{
-     
-}
-
+// All Latin characters that have no representation in Cyrillic are considered illegal 
 [[nodiscard]] inline bool RegMark::isSymbolLegal(const char symbol)
 {
     for (const auto &illegal_symbol : illegal_symbols) {
@@ -101,17 +105,16 @@ namespace RegMark {
     return true;
 }
 
-[[nodiscard]] inline char RegMark::getNextSymbolInSeries(const char symbol)
+[[nodiscard]] inline char RegMark::getNextSymbolInSeries(char symbol)
 {
-    char next_symbol = symbol;
-    next_symbol++;
-    if (isSymbolLegal(next_symbol) == true)
-        return next_symbol;
+    ++symbol;
+    if (isSymbolLegal(symbol) == true)
+        return symbol;
     else
-        return getNextSymbolInSeries(next_symbol);
+        return getNextSymbolInSeries(symbol);
 }
 
-[[nodiscard]] inline string RegMark::getNextSeries(const string &mark)
+[[nodiscard]] string RegMark::getNextSeries(const string &mark)
 {
     char current_char = 0;
     char first_symbol = mark[0];
@@ -184,7 +187,7 @@ namespace RegMark {
     return true;
 }
 
-[[nodiscard]] bool RegMark::checkRegionCode(const string &mark)
+[[nodiscard]] inline bool RegMark::checkRegionCode(const string &mark)
 {
     const unsigned int region_code = getRegionCode(mark);
     if (region_code >= 1 && region_code <= 99) {
