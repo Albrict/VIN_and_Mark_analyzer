@@ -2,16 +2,10 @@
 #include <string>
 
 namespace VIN {
-    struct Region {
-        const std::string geographical_zone;
-        const std::string country;
-
-        Region(const std::string &zone, const std::string &country)
-            : geographical_zone(zone), country(country) {}
-    };
-
+    // Checks the VIN number and returns true or false depending on the correctness of the VIN number
     [[nodiscard]] bool checkVIN(const std::string &vin);
+    // Returns VIN country, if not found - returns "Not used"
     [[nodiscard]] std::string getVINCountry(const std::string &vin);
-    [[nodiscard]] std::string getRegion(const std::string &vin);
+    //Returns the year in which the vehicle was manufactured from 2001 to 2029
     [[nodiscard]] int getTransportYear(const std::string &vin);
 }
